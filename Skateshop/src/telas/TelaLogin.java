@@ -1,5 +1,7 @@
 package telas;
 
+import connection.ConnectionFactory;
+
 public class TelaLogin extends javax.swing.JFrame {
 
     public TelaLogin() {
@@ -100,15 +102,16 @@ public class TelaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        
+        ConnectionFactory con = new ConnectionFactory();
+        con.conecta();
+        
         TelaInicio inicio = new TelaInicio();
         inicio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
 
-    public static void main(String args[]) {
-        
-        
-        
+    public static void main(String args[]) {       
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
