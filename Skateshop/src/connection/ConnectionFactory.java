@@ -24,53 +24,30 @@ public class ConnectionFactory {
         try {
             System.setProperty ("jdbc.Drivers", DRIVER); // seta a propriedade do Driver de conexão
             CONN = DriverManager.getConnection (URL, USER, PASS); // realiza a conexão com o mySQL
-            JOptionPane.showMessageDialog (null, "MySQL conectado com sucesso!"); // Valida a conexão (True)
+            //JOptionPane.showMessageDialog (null, "MySQL conectado com sucesso!"); // Valida a conexão (True)
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro de conexão: "+ex); // False
         }
     }
     
+    public void desconecta(){
+        try {
+            CONN.close();
+            //JOptionPane.showMessageDialog (null, "Desconectado com sucesso");
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog (null, "Erro ao fechar a conexão: "+ex);
+        }
+    }
+    
     public void executaSQL(String sql) throws SQLException{
         STM = (Statement) CONN.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
         RS = STM.executeQuery(sql);
-    }
-
+    }  
     
-    public static void closeConnection(Connection con) {
-        if(con != null) {
-            try {
-                con.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+    public void executaInsert(String sql) throws SQLException{
+        STM = (Statement) CONN.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+        STM.executeUpdate(sql);
     }
-    
-    public static void closeConnection(Connection con, PreparedStatement stmt) {
-        closeConnection(con);
-        try {
-            if(stmt != null) {
-                stmt.close();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public static void closeConnection(Connection con, PreparedStatement stmt, ResultSet rs) {
-        closeConnection(con, stmt);
-        try {
-            if(rs != null) {
-                rs.close();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public Statement createStatement(int TYPE_SCROLL_INSENSITIVE, int CONCUR_READ_ONLY) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }
