@@ -1,6 +1,12 @@
 package telas;
 
 import connection.ConnectionFactory;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 public class TelaLogin extends javax.swing.JFrame {
 
@@ -15,27 +21,34 @@ public class TelaLogin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        btnCriarConta = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
         txtEmail = new javax.swing.JTextField();
-        txtSenha = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(999999, 999999));
         setResizable(false);
         setSize(new java.awt.Dimension(290, 217));
+        getContentPane().setLayout(null);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/telas/imagens/logo.png"))); // NOI18N
         jLabel1.setToolTipText("");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(100, 11, 139, 60);
 
         jLabel2.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
         jLabel2.setText("E-mail:");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(39, 90, 43, 16);
 
         jLabel3.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
         jLabel3.setText("Senha:");
-
-        btnCriarConta.setFont(new java.awt.Font("Microsoft Sans Serif", 1, 14)); // NOI18N
-        btnCriarConta.setText("Criar conta");
+        jLabel3.setAlignmentY(0.3F);
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(39, 121, 45, 16);
 
         btnLogin.setFont(new java.awt.Font("Microsoft Sans Serif", 1, 14)); // NOI18N
         btnLogin.setText("Login");
@@ -44,71 +57,58 @@ public class TelaLogin extends javax.swing.JFrame {
                 btnLoginActionPerformed(evt);
             }
         });
+        getContentPane().add(btnLogin);
+        btnLogin.setBounds(250, 180, 73, 33);
+        getContentPane().add(txtEmail);
+        txtEmail.setBounds(100, 89, 180, 20);
 
-        txtSenha.setToolTipText("");
+        jLabel4.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 11)); // NOI18N
+        jLabel4.setText("Usuário padrão:");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(30, 160, 75, 14);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCriarConta)
-                        .addGap(120, 120, 120)
-                        .addComponent(btnLogin)))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel2))
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel3))
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCriarConta, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
+        jLabel5.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 11)); // NOI18N
+        jLabel5.setText("E-mail: admin@admin.com.br");
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(30, 180, 136, 14);
+
+        jLabel6.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 11)); // NOI18N
+        jLabel6.setText("Senha: admin123");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(30, 200, 83, 14);
+        getContentPane().add(txtSenha);
+        txtSenha.setBounds(100, 120, 130, 20);
 
         setSize(new java.awt.Dimension(359, 267));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        
         ConnectionFactory con = new ConnectionFactory();
         con.conecta();
         
-        TelaInicio inicio = new TelaInicio();
-        inicio.setVisible(true);
-        this.dispose();
+        try {
+            con.executaSQL ("select * from usuarios where email = '"+txtEmail.getText()+"'");
+            if(con.RS.first()) {
+                if (con.RS.getString("senha").equals(txtSenha.getText())){
+                    JOptionPane.showMessageDialog (null, "Seja bem vindo ");
+                    TelaInicio inicio = new TelaInicio();
+                    inicio.setVisible(true);
+                    this.dispose();
+                }
+                else {
+                    JOptionPane.showMessageDialog (null,"O usuario ou a senha estão incorretos!");
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog (null,"O usuario ou a senha estão incorretos!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            con.desconecta();
+        }
+        
     }//GEN-LAST:event_btnLoginActionPerformed
 
     public static void main(String args[]) {       
@@ -138,12 +138,14 @@ public class TelaLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCriarConta;
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtSenha;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }
