@@ -11,7 +11,7 @@ public class TelaInicio extends javax.swing.JFrame {
 
     public TelaInicio() {
         initComponents();
-        
+        this.setDefaultCloseOperation(TelaInicio.DO_NOTHING_ON_CLOSE);
         btnAtualizarProd.setEnabled(false);
         btnDeletarProd.setEnabled(false);
         btnNovoProd.setEnabled(false);
@@ -315,7 +315,7 @@ public class TelaInicio extends javax.swing.JFrame {
         });
 
         lblEmail.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
-        lblEmail.setText("E-mail:");
+        lblEmail.setText("E-mail*:");
 
         txtEmail.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 11)); // NOI18N
 
@@ -332,7 +332,7 @@ public class TelaInicio extends javax.swing.JFrame {
         });
 
         lblEmail1.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
-        lblEmail1.setText("Senha:");
+        lblEmail1.setText("Senha*:");
 
         tblUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -398,7 +398,7 @@ public class TelaInicio extends javax.swing.JFrame {
                                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(cbxMostrarSenha2)
-                                .addGap(0, 95, Short.MAX_VALUE)))
+                                .addGap(0, 90, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(lblEmail)
@@ -415,12 +415,13 @@ public class TelaInicio extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addComponent(tblUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEmail)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
-                        .addComponent(txtCodUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtCodUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblEmail)
+                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail1)
@@ -607,6 +608,9 @@ public class TelaInicio extends javax.swing.JFrame {
         txtPrecoProd.setText("");
         txtTamanhoProd.setText("");
         cbxAtivoProd.setSelected(false);
+        btnAtualizarProd.setEnabled(false);
+        btnDeletarProd.setEnabled(false);
+        btnNovoProd.setEnabled(false);
     }
     
     private void limpaCamposUser() {
@@ -614,6 +618,9 @@ public class TelaInicio extends javax.swing.JFrame {
         txtEmail.setText("");
         txtSenha.setText("");
         cbxMostrarSenha2.setSelected(false);
+        btnAtualizarUsuario.setEnabled(false);
+        btnDeletarUsuario.setEnabled(false);
+        btnNovoUsuario.setEnabled(false);
     }
     
     private void tblProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdutosMouseClicked
@@ -659,19 +666,16 @@ public class TelaInicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Os campos obrigatórios(*) devem ser preenchidos!");
         }
         else {
-            Pattern pEmail = Pattern.compile("^([\\w]+)@([\\w]+)\\.([\\w]+)$");
-            Matcher mEmail = pEmail.matcher(txtEmail.getText());
-            
-            boolean isEmailValid = mEmail.matches();
-            if(!isEmailValid) {
-                JOptionPane.showMessageDialog(null, "Digite um e-mail válido!");
-            }
-            else {
-                try {
-                    ConnectionFactory con = new ConnectionFactory();
-                    con.conecta();
-
-                    String email = txtEmail.getText();
+            try {
+                ConnectionFactory con = new ConnectionFactory();
+                con.conecta();
+                String email = txtEmail.getText();
+                
+                con.executaSQL ("select * from usuarios where email = '"+email+"'");
+                if(con.RS.first()) {
+                    JOptionPane.showMessageDialog(null, "Esse e-mail já esta cadastrado em nosso sistema!");
+                }
+                else {
                     String senha = txtSenha.getText();
 
                     String sql = "INSERT INTO usuarios (email ,senha) VALUES"
@@ -689,9 +693,9 @@ public class TelaInicio extends javax.swing.JFrame {
                     montaGridUser();
 
                     con.desconecta();
-                }catch(Exception e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao inserir usuário: "+e);
                 }
+            }catch(Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao inserir usuário: "+e);
             }
         }
     }//GEN-LAST:event_btnIncluirUsuarioMouseClicked

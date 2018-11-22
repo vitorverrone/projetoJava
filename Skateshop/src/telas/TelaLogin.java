@@ -27,6 +27,7 @@ public class TelaLogin extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
+        cbxMostrarSenha = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(999999, 999999));
@@ -79,6 +80,16 @@ public class TelaLogin extends javax.swing.JFrame {
         getContentPane().add(txtSenha);
         txtSenha.setBounds(100, 120, 130, 20);
 
+        cbxMostrarSenha.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 12)); // NOI18N
+        cbxMostrarSenha.setText("Mostrar senha");
+        cbxMostrarSenha.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxMostrarSenhaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(cbxMostrarSenha);
+        cbxMostrarSenha.setBounds(210, 150, 105, 23);
+
         setSize(new java.awt.Dimension(359, 267));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -111,6 +122,15 @@ public class TelaLogin extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    private void cbxMostrarSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxMostrarSenhaMouseClicked
+        if(cbxMostrarSenha.isSelected()) {
+            txtSenha.setEchoChar((char)0);
+        }
+        else {
+            txtSenha.setEchoChar('•');
+        }
+    }//GEN-LAST:event_cbxMostrarSenhaMouseClicked
+
     public static void main(String args[]) {       
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -139,6 +159,7 @@ public class TelaLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
+    private javax.swing.JCheckBox cbxMostrarSenha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
